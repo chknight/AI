@@ -16,17 +16,18 @@ public class Action {
     // max number of item could return each week
     public static int maxReturn;
 
-    //max number of item could store each week
-    public static int maxStore;
-
     // the operation of an action
     public List<Integer> orderList;
 
     public List<Integer> returnList;
+    // The penalty to cu
+    public int cutPenalty;
+
 
     public Action() {
         orderList = new ArrayList<>();
         returnList = new ArrayList<>();
+        cutPenalty = 0;
     }
 
     public List<Integer> getOrderList() {
@@ -48,12 +49,14 @@ public class Action {
     public State generateNewState(State oldState) {
         State newState = new State(oldState);
         if(isValid(oldState.getItems())) {
+            int totalAmount = 0;
             List<Integer> items = oldState.getItems();
             List<Integer> newItems = new ArrayList<>();
             for(int i = 0; i < newState.getTypeOfItems(); ++i) {
-                newItems.add(items.get(i) + orderList.get(i));
-                newItems.add(items.get(i) - returnList.get(i));
+                newItems.add(items.get(i) + orderList.get(i) - returnList.get(i));
+                totalAmount += newItems.get(i);
             }
+            newState.setTotalAmount(totalAmount);
             newState.setItems(newItems);
         }
         return newState;
