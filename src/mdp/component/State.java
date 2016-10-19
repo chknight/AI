@@ -56,7 +56,16 @@ public class State {
 
     public void setItems(List<Integer> items) {
         this.items = items;
+        sumAllItem();
         stockAdapter();
+    }
+
+    public int getCutPenalty() {
+        return cutPenalty;
+    }
+
+    public void setCutPenalty(int cutPenalty) {
+        this.cutPenalty = cutPenalty;
     }
 
     public int getTotalAmount() {

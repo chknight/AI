@@ -58,6 +58,8 @@ public class Action {
             }
             newState.setTotalAmount(totalAmount);
             newState.setItems(newItems);
+        } else {
+            return null;
         }
         return newState;
     }
