@@ -35,17 +35,22 @@ public class TestState {
     }
 
     private void testLegalState() {
+       State state = generateLegalState();
+        int[] expectedValue = {1, 2, 0};
+        for(int i = 0; i < 3; ++i) {
+            assertEquals(state.getItems().get(i) == expectedValue[i], true);
+        }
+        assertEquals(state.getCutPenalty(), 0.0, 0.00001);
+    }
+
+    public static State generateLegalState() {
+        State.penaltyPerItem = 4;
         State state = new State(3);
         List<Integer> temp = new ArrayList<>(3);
         temp.add(1);
         temp.add(2);
         temp.add(0);
         state.setItems(temp);
-        state.setCutPenalty(0);
-        int[] expectedValue = {1, 2, 0};
-        for(int i = 0; i < 3; ++i) {
-            assertEquals(state.getItems().get(i) == expectedValue[i], true);
-        }
-        assertEquals(state.getCutPenalty(), 0.0, 0.00001);
+        return state;
     }
 }

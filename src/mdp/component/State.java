@@ -64,10 +64,6 @@ public class State {
         return cutPenalty;
     }
 
-    public void setCutPenalty(int cutPenalty) {
-        this.cutPenalty = cutPenalty;
-    }
-
     public int getTotalAmount() {
         return totalAmount;
     }
