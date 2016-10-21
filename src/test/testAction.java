@@ -1,6 +1,5 @@
 package test;
 
-import junit.framework.Assert;
 import org.junit.Test;
 import mdp.component.Action;
 import mdp.component.State;
@@ -21,10 +20,11 @@ public class TestAction {
         State.penaltyPerItem = 4;
         State.maxStore = 3;
         List<Integer> temp = new ArrayList<>(3);
-        temp.add(5);
-        temp.add(3);
-        temp.add(2);
+        temp.add(1);
+        temp.add(0);
+        temp.add(0);
         int[] expectedValue = {0, 1, 2};
         state.setItems(temp);
+
     }
 }

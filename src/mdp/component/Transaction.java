@@ -13,9 +13,9 @@ public class Transaction {
 	
 	private State oldState;
 	private State newState;
-	private static int types;
-	private static int capacity;
-	private static List<Matrix> probabilities;
+	public static int types;
+	public static int capacity;
+	public static List<Matrix> probabilities;
 	public static List<Integer> orderList;
     public static List<Integer> returnList;
 	
@@ -26,7 +26,7 @@ public class Transaction {
 		types = oldState.getTypeOfItems();
 	}
 	
-	//get the probability of one single item
+	//get the probabilities of one single item
 	public double getProbabilityForOneItem(int lastStock, int orderItems, int returnItems, int newStock, int itemIndex){
 		if(newStock > lastStock + orderItems - returnItems){
 			return 0;
@@ -44,7 +44,7 @@ public class Transaction {
 		return 0;
 	}
 	
-	//get the transaction probability between two states 
+	//get the transaction probabilities between two states
 	public double getTransactionValue(){
 		double result = 1;
 		for(int i = 0; i < types; i++){

@@ -14,7 +14,7 @@ public class State {
     //max number of item could store each week
     public static int maxStore;
     //the penalty for per item
-    public static int penaltyPerItem;
+    public static double penaltyPerItem;
 
     // The totalAmount of the items
     public int totalAmount;
@@ -24,7 +24,7 @@ public class State {
     // the number of different items in current state
     private List<Integer> items;
     // The penalty to cu
-    public int cutPenalty;
+    public double cutPenalty;
 
     public State(int typeOfItems) {
         this.typeOfItems = typeOfItems;
@@ -60,7 +60,7 @@ public class State {
         stockAdapter();
     }
 
-    public int getCutPenalty() {
+    public double getCutPenalty() {
         return cutPenalty;
     }
 
