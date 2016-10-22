@@ -1,6 +1,8 @@
 package test;
 
 import junit.framework.Assert;
+import mdp.component.ActionGenerator;
+import mdp.util.MDPContext;
 import org.junit.Test;
 import mdp.component.Action;
 import mdp.component.State;
@@ -61,6 +63,24 @@ public class TestAction {
         Action.maxReturn = 3;
         testLegalAction();
         testActionOverReturn();
+    }
+
+    @Test
+    /**
+     * Test all the action could be applied
+     */
+    public void testGenerateAllActions() {
+        Action.maxOrder = 3;
+        Action.maxReturn = 3;
+        ActionGenerator.maxPurchase = 3;
+        ActionGenerator.maxReturn = 3;
+        MDPContext.MaxType = 3;
+        ActionGenerator.generateAllActions(3, 3);
+        List<Action> allActions = ActionGenerator.allPossibleList;
+        for(int i = 0; i < allActions.size(); ++i) {
+            System.out.println("The action " + i + "is ----------------------------------");
+            System.out.println(allActions.get(i).toString());
+        }
     }
 
     public void testLegalAction() {
