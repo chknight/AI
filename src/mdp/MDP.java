@@ -7,6 +7,7 @@ import mdp.util.MDPContext;
 import problem.ProblemSpec;
 
 /**
+ * The bootstrap class for the MDP
  * Created by ch_knight on 10/21/2016.
  */
 public class MDP {

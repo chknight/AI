@@ -1,5 +1,6 @@
 package mdp.component;
 
+import mdp.MDP;
 import mdp.util.MDPContext;
 import problem.Matrix;
 
@@ -18,8 +19,8 @@ public class Reward {
     }
 
     //calculate the reward according to the current state and action will be applied
-    public double calculateTotalReward(State currentState, Action action) {
-        State newState = action.generateNewState(currentState);
+    public double calculateTotalReward(State previousState, Action action) {
+        State newState = action.generateNewState(previousState);
         List<Integer> items = newState.getItems();
         double result = 0;
         for(int i = 0;i < items.size(); ++i) {
@@ -39,5 +40,21 @@ public class Reward {
         }
         return result;
     }
+
+    // get the immediate reward from current state
+//    public double immediateReward(State previousState, State currentState) {
+//        double result = 0;
+//        List<Integer> previousItems = previousState.getItems();
+//        List<Integer> currentItems = currentState.getItems();
+//        for(int i = 0; i < previousItems.size(); ++i) {
+//            result += calculateImmediateRewardPerItem(previousItems.get(i), currentItems.get(i), i);
+//        }
+//        return result;
+//    }
+//
+//    public double calculateImmediateRewardPerItem(int previousItem, int currentItem, int index) {
+//        double price = MDPContext.prices.get(index);
+//        double result = (currentItem - previousItem) * ()
+//    }
 
 }

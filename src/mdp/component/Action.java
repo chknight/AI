@@ -81,4 +81,21 @@ public class Action {
         return numOfOrderItem < maxOrder && numOfReturnItem < maxReturn;
     }
 
+    @Override
+    public String toString() {
+        String result = "";
+        result += "The order list is: ";
+        for(int i = 0; i < orderList.size(); ++i) {
+            result += orderList.get(i);
+            result += " ";
+        }
+        result += "\nThe return list is: ";
+        for(int j = 0; j < returnList.size(); ++j) {
+            result += returnList.get(j);
+            result += " ";
+        }
+        result += "\n";
+        return result;
+    }
+
 }
