@@ -54,6 +54,9 @@ public class Action {
             List<Integer> newItems = new ArrayList<>();
             for(int i = 0; i < newState.getTypeOfItems(); ++i) {
                 newItems.add(items.get(i) + orderList.get(i) - returnList.get(i));
+                if(newItems.get(i) < 0) {
+                    return null;
+                }
                 totalAmount += newItems.get(i);
             }
             newState.setTotalAmount(totalAmount);
