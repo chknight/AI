@@ -26,6 +26,8 @@ public class State {
     // The penalty to cu
     public double cutPenalty;
 
+    public int currentWeek;
+
     public State(int typeOfItems) {
         this.typeOfItems = typeOfItems;
         items = new ArrayList<>();
@@ -94,5 +96,17 @@ public class State {
             sum += item;
         }
         totalAmount = sum;
+    }
+
+    public int getCurrentWeek() {
+        return currentWeek;
+    }
+
+    public void setCurrentWeek(int currentWeek) {
+        this.currentWeek = currentWeek;
+    }
+
+    public int toNextWeek() {
+        currentWeek++;
     }
 }

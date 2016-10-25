@@ -66,4 +66,15 @@ public class ActionGenerator {
             }
         }
     }
+
+    public static List<Action> getPossibleActions(State currentState) {
+        List<Action> legalActions = new ArrayList<>(allPossibleList.size());
+        for(Action action : allPossibleList) {
+            State nextState = action.generateNewState(currentState);
+            if(nextState != null) {
+                legalActions.add(action);
+            }
+        }
+        return legalActions;
+    }
 }
