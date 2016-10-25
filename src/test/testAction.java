@@ -27,9 +27,9 @@ public class TestAction {
         List<Integer> returnList = new ArrayList<>();
         orderList.add(1);
         orderList.add(0);
-        orderList.add(1);
+        orderList.add(2);
         returnList.add(1);
-        returnList.add(1);
+        returnList.add(2);
         returnList.add(0);
         action.setOrderList(orderList);
         action.setReturnList(returnList);
