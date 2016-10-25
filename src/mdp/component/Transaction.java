@@ -16,28 +16,38 @@ public class Transaction {
 	public static int types;
 	public static int capacity;
 	public static List<Matrix> probabilities;
-	public static List<Integer> orderList;
-    public static List<Integer> returnList;
+	public Action action;
+
 	
 	
-	public Transaction(State oldState, State newState){
+	public Transaction(State oldState, State newState, Action action){
 		this.newState = newState;
 		this.oldState = oldState;
-		types = oldState.getTypeOfItems();
+		this.action = action;
+		//types = oldState.getTypeOfItems();
 	}
-	
+
 	//get the probabilities of one single item
 	public double getProbabilityForOneItem(int lastStock, int orderItems, int returnItems, int newStock, int itemIndex){
+		/*for(Matrix m : probabilities){
+			System.out.println(m.get(0, 0));
+		}*/
+		
 		if(newStock > lastStock + orderItems - returnItems){
 			return 0;
 		}
-		if(newStock > 0 && newStock < lastStock + orderItems - returnItems){
+		if(newStock > 0 && newStock <= lastStock + orderItems - returnItems){
+			//System.out.println(lastStock + orderItems - returnItems);
+			//System.out.println(lastStock + orderItems - returnItems - newStock);
 			return probabilities.get(itemIndex).get(lastStock + orderItems - returnItems, lastStock + orderItems - returnItems - newStock);
 		}
 		if(newStock == 0){
-			int result = 0;
-			for(int i = lastStock + orderItems - returnItems; i < capacity; i++){
+			double result = 0;
+			for(int i = lastStock + orderItems - returnItems; i < capacity + 1; i++){
+				//result += 0.5;
 				result += probabilities.get(itemIndex).get(lastStock + orderItems - returnItems, i);
+				//System.out.println(probabilities.get(itemIndex).get(lastStock + orderItems - returnItems, i));
+				//System.out.println("result:" + result);
 			}
 			return result;
 		}
@@ -49,8 +59,8 @@ public class Transaction {
 		double result = 1;
 		for(int i = 0; i < types; i++){
 			int lastStock = oldState.getItems().get(i);
-			int orderItems = orderList.get(i);
-			int returnItems = returnList.get(i);
+			int orderItems = action.getOrderList().get(i);
+			int returnItems = action.getReturnList().get(i);
 			int newStock = newState.getItems().get(i);
 			double prob = getProbabilityForOneItem(lastStock, orderItems, returnItems, newStock, i);
 			result *= prob;
