@@ -59,4 +59,22 @@ public class TestState {
         state.setItems(temp);
         return state;
     }
+
+    public static State generate0State() {
+        State state = new State(2);
+        List<Integer> items = new ArrayList<>(2);
+        items.add(0);
+        items.add(0);
+        state.setItems(items);
+        return state;
+    }
+
+    public static State generate1State() {
+        State state = new State(2);
+        List<Integer> items = new ArrayList<>(2);
+        items.add(1);
+        items.add(0);
+        state.setItems(items);
+        return state;
+    }
 }

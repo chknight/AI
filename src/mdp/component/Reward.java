@@ -13,35 +13,30 @@ import java.util.List;
  */
 public class Reward {
 
-    public Reward(State currentState, Action action) {
-        currentState = currentState;
-        State newState = action.generateNewState(currentState);
-    }
-
     //calculate the reward according to the current state and action will be applied
-    public double calculateTotalReward(State previousState, Action action) {
+    public static double calculateTotalReward(State previousState, Action action) {
         State newState = action.generateNewState(previousState);
         List<Integer> items = newState.getItems();
         double result = 0;
         for(int i = 0;i < items.size(); ++i) {
             result += calculateRewardOfOneType(i, items.get(i));
-            result += action.returnList.get(i) * MDPContext.prices.get(i);
+            result -= action.returnList.get(i) * MDPContext.prices.get(i) * 0.5;
         }
-        result += action.getCutPenalty();
+        result -= action.getCutPenalty();
         return result;
     }
 
-    public double calculateRewardOfOneType(int index, int item) {
+    public static double calculateRewardOfOneType(int index, int item) {
         double result = 0;
         Matrix probabilities = MDPContext.probabilities.get(index);
         double price = MDPContext.prices.get(index);
-        for(int i = 0; i < MDPContext.maxStore; ++i) {
+        for(int i = 0; i <= MDPContext.maxStore; ++i) {
             double probability = probabilities.get(item, i);
             // all the consumers buy the things they want
             if(i <= item) {
-                result += probability * 0.75 * price;
+                result += probability * 0.75 * price * i;
             } else {
-                result += probability * (0.75 * i * price  - (i - item) * 0.25 * price);
+                result += probability * (0.75 * item * price  - (i - item) * 0.25 * price);
             }
         }
         return result;
