@@ -81,6 +81,7 @@ public class RTDP  {
 
             }
         }
+        return resolved;
     }
 
     public boolean isSolved(State state) {

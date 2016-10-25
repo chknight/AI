@@ -13,8 +13,6 @@ public class State {
 
     //max number of item could store each week
     public static int maxStore;
-    //the penalty for per item
-    public static double penaltyPerItem;
 
     // The totalAmount of the items
     public int totalAmount;
@@ -23,8 +21,6 @@ public class State {
     private  int typeOfItems;
     // the number of different items in current state
     private List<Integer> items;
-    // The penalty to cu
-    public double cutPenalty;
 
     public int currentWeek;
 
@@ -39,7 +35,6 @@ public class State {
     }
 
     public State(State oldState) {
-        this.totalAmount = oldState.getTotalAmount();
         this.typeOfItems = oldState.getTypeOfItems();
         items = new ArrayList<>(oldState.getItems());
     }
@@ -59,35 +54,6 @@ public class State {
     public void setItems(List<Integer> items) {
         this.items = items;
         sumAllItem();
-        stockAdapter();
-    }
-
-    public double getCutPenalty() {
-        return cutPenalty;
-    }
-
-    public int getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(int totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    // the function to adjust the amount of the stock
-    public void stockAdapter() {
-        int index = 0;
-        cutPenalty = 0;
-        while(totalAmount > maxStore) {
-            int temp = items.get(index);
-            if(temp > 0) {
-                items.set(index, temp - 1);
-                cutPenalty += penaltyPerItem;
-                totalAmount--;
-            } else {
-                index++;
-            }
-        }
     }
 
     public void sumAllItem() {

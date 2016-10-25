@@ -71,7 +71,7 @@ public class Action {
                 }
                 totalAmount += newItems.get(i);
             }
-            adjustItem(items, totalAmount);
+            adjustItem(newItems, totalAmount);
             newState.setItems(newItems);
         } else {
             return null;
@@ -93,7 +93,7 @@ public class Action {
             numOfReturnItem += returnList.get(i);
         }
 
-        return numOfOrderItem < maxOrder && numOfReturnItem < maxReturn;
+        return numOfOrderItem <= maxOrder && numOfReturnItem <= maxReturn;
     }
 
     public void adjustItem(List<Integer> items, int totalAmount) {
