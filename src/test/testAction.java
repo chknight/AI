@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test the action class
@@ -57,12 +58,29 @@ public class TestAction {
         return action;
     }
 
+    public static Action  generateWithCutoffPenalty() {
+        Action action = generateLegalAction();
+        List<Integer> orderList = new ArrayList<>(3);
+        orderList.add(1);
+        orderList.add(2);
+        orderList.add(0);
+        List<Integer> returnList = new ArrayList<>();
+        returnList.add(0);
+        returnList.add(0);
+        returnList.add(0);
+        action.setOrderList(orderList);
+        action.setReturnList(returnList);
+        return action;
+    }
+
     @Test
     public void testAction() {
         Action.maxOrder = 3;
         Action.maxReturn = 3;
         testLegalAction();
         testActionOverReturn();
+        testActionOverOrder();
+        testActionWithPenalty();
     }
 
     @Test
@@ -75,6 +93,8 @@ public class TestAction {
         ActionGenerator.maxPurchase = 3;
         ActionGenerator.maxReturn = 3;
         MDPContext.MaxType = 3;
+        MDPContext.maxStore = 3;
+        MDPContext.cutoffPenalytPerItem = 4;
         ActionGenerator.generateAllActions(3, 3);
         List<Action> allActions = ActionGenerator.allPossibleList;
         for(int i = 0; i < allActions.size(); ++i) {
@@ -112,5 +132,20 @@ public class TestAction {
         State newState = action.generateNewState(state);
         assertNull("The result should be none", newState);
         System.out.println("End to test action over order---------");
+    }
+
+    public void testActionWithPenalty() {
+        System.out.println("Begin to test action with penalty---------");
+        State state = TestState.generateLegalState();
+        Action action = TestAction.generateWithCutoffPenalty();
+        State newState = action.generateNewState(state);
+        Integer[] expectedValue = {0, 3, 0};
+        Double expectedPenalty = 3 * MDPContext.cutoffPenalytPerItem;
+        assertNotNull("The result should be none", newState);
+        for(int i = 0; i < newState.getItems().size(); ++i) {
+            assertEquals(expectedValue[i], newState.getItems().get(i));
+        }
+        assertEquals(expectedPenalty, action.getCutPenalty(), 0.001);
+        System.out.println("End to test action with penalty---------");
     }
 }

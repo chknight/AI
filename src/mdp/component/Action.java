@@ -24,7 +24,7 @@ public class Action {
     public List<Integer> returnList;
 
 
-    // The penalty to cu
+    // The penalty to cut off the order
     public double cutPenalty;
 
 
@@ -52,10 +52,6 @@ public class Action {
 
     public double getCutPenalty() {
         return cutPenalty;
-    }
-
-    public void setCutPenalty(double cutPenalty) {
-        this.cutPenalty = cutPenalty;
     }
 
     public State generateNewState(State oldState) {

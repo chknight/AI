@@ -33,10 +33,16 @@ public class Reward {
 
     public double calculateRewardOfOneType(int index, int item) {
         double result = 0;
-        Matrix probability = MDPContext.probabilities.get(index);
+        Matrix probabilities = MDPContext.probabilities.get(index);
         double price = MDPContext.prices.get(index);
-        for(int i = 0; i < item; ++i) {
-            result += probability.get(item, i) * (0.75 * i * price  - (item - i) * 0.25 * price);
+        for(int i = 0; i < MDPContext.maxStore; ++i) {
+            double probability = probabilities.get(item, i);
+            // all the consumers buy the things they want
+            if(i <= item) {
+                result += probability * 0.75 * price;
+            } else {
+                result += probability * (0.75 * i * price  - (i - item) * 0.25 * price);
+            }
         }
         return result;
     }

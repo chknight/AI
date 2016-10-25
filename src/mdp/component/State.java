@@ -1,5 +1,8 @@
 package mdp.component;
 
+import mdp.MDP;
+import mdp.util.MDPContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +65,11 @@ public class State {
             sum += item;
         }
         totalAmount = sum;
+    }
+
+    public boolean isValid() {
+        sumAllItem();
+        return totalAmount <= MDPContext.maxStore;
     }
 
     public int getCurrentWeek() {
