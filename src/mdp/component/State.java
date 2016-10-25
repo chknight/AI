@@ -26,6 +26,12 @@ public class State {
     private List<Integer> items;
 
     public int currentWeek;
+    
+    public double value;
+    public double lastValue;
+    public Action bestAction;
+    public ArrayList<Action> allActions;
+    public ArrayList<Integer> nextState;
 
     public State(int typeOfItems) {
         this.typeOfItems = typeOfItems;
@@ -95,5 +101,25 @@ public class State {
         } else {
             return false;
         }
+    }
+    
+    
+    public void initialize2DArray(){
+    	nextState = new ArrayList<Integer>();
+    }
+    
+    public void generatePossibleStatesList(int itemIndex){  	
+    	if(itemIndex < typeOfItems + 1){
+    		for(int i = 0; i < maxStore + 1; i++){
+    			nextState.add(i);
+    			nextState.add(itemIndex - 1);
+    			generatePossibleStatesList(itemIndex + 1);
+    		}
+    	}
+    }
+    
+    public ArrayList<State> generateAllStates(){
+    	ArrayList<State> states = new ArrayList<State>();
+    	return states;
     }
 }
