@@ -60,7 +60,7 @@ public class Action {
             int totalAmount = 0;
             List<Integer> items = oldState.getItems();
             List<Integer> newItems = new ArrayList<>();
-            for(int i = 0; i < newState.getTypeOfItems(); ++i) {
+            for(int i = 0; i < MDPContext.MaxType; ++i) {
                 newItems.add(items.get(i) + orderList.get(i) - returnList.get(i));
                 if(newItems.get(i) < 0) {
                     return null;
