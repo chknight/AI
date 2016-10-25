@@ -41,30 +41,38 @@ public class ActionGenerator {
         System.out.println(orderLists.size());
         System.out.println(returnLists.size());
 
-        for(int i = 0; i < orderLists.size(); ++i) {
-            System.out.println(orderLists.get(i));
-        }
         for(int i = 0; i < possibleOrderSet.size(); i++) {
             for(int j = 0; j < possibleReturnSet.size(); ++j) {
                 Action action = new Action();
-                action.setOrderList(orderLists.get(i));
-                action.setReturnList(returnLists.get(j));
-                allPossibleList.add(action);
+                if(isValid(orderLists.get(i), returnLists.get(j))) {
+                    action.setOrderList(orderLists.get(i));
+                    action.setReturnList(returnLists.get(j));
+                    allPossibleList.add(action);
+                }
             }
         }
     }
 
     public static void generateAllPossibleList(List<Integer> currentList, int total, int max, Set<List<Integer>> possibleList) {
-        if(total < max) {
+        if(total <= max) {
+            possibleList.add(currentList);
             for(int i = 0; i < currentList.size(); ++i) {
                 List<Integer> temp = new ArrayList<>(currentList);
                 temp.set(i, currentList.get(i) + 1);
                 if(!possibleList.contains(temp)) {
-                    possibleList.add(temp);
                     generateAllPossibleList(temp, total + 1, max, possibleList);
                 }
             }
         }
+    }
+
+    public static boolean isValid(List<Integer> orderList, List<Integer> returnList) {
+        for(int i = 0; i < orderList.size(); ++i) {
+            if(orderList.get(i) > 0 && returnList.get(i) > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static List<Action> getPossibleActions(State currentState) {
