@@ -106,7 +106,20 @@ public class State {
         this.currentWeek = currentWeek;
     }
 
-    public int toNextWeek() {
+    public void toNextWeek() {
         currentWeek++;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() != this.getClass()) {
+            return false;
+        }
+        State other = (State) obj;
+        if(other.getItems().equals(items)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

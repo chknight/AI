@@ -1,9 +1,11 @@
 package mdp.util;
 
+import mdp.component.State;
 import problem.Matrix;
 import problem.ProblemSpec;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * The class to store necessary variables
@@ -14,4 +16,7 @@ public class MDPContext {
     public static List<Double> prices;
     public static ProblemSpec problemSpec;
     public static int MaxType;
+    public static int maxStore;
+    public static double cutoffPenalytPerItem;
+    public static Map<State, Double> valueFunction;
 }

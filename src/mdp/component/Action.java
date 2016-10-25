@@ -1,5 +1,7 @@
 package mdp.component;
 
+import mdp.util.MDPContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +22,10 @@ public class Action {
     public List<Integer> orderList;
 
     public List<Integer> returnList;
+
+
     // The penalty to cu
-    public int cutPenalty;
+    public double cutPenalty;
 
 
     public Action() {
@@ -46,6 +50,14 @@ public class Action {
         this.returnList = returnList;
     }
 
+    public double getCutPenalty() {
+        return cutPenalty;
+    }
+
+    public void setCutPenalty(double cutPenalty) {
+        this.cutPenalty = cutPenalty;
+    }
+
     public State generateNewState(State oldState) {
         State newState = new State(oldState);
         if(isValid(oldState.getItems())) {
@@ -59,7 +71,7 @@ public class Action {
                 }
                 totalAmount += newItems.get(i);
             }
-            newState.setTotalAmount(totalAmount);
+            adjustItem(items, totalAmount);
             newState.setItems(newItems);
         } else {
             return null;
@@ -82,6 +94,21 @@ public class Action {
         }
 
         return numOfOrderItem < maxOrder && numOfReturnItem < maxReturn;
+    }
+
+    public void adjustItem(List<Integer> items, int totalAmount) {
+        cutPenalty = 0;
+        int index = 0;
+        while(totalAmount > MDPContext.maxStore) {
+            int temp = items.get(index);
+            if(temp > 0) {
+                items.set(index, temp - 1);
+                cutPenalty += MDPContext.cutoffPenalytPerItem;
+                totalAmount--;
+            } else {
+                index++;
+            }
+        }
     }
 
     @Override

@@ -27,7 +27,7 @@ public class Reward {
             result += calculateRewardOfOneType(i, items.get(i));
             result += action.returnList.get(i) * MDPContext.prices.get(i);
         }
-        result += newState.getCutPenalty();
+        result += action.getCutPenalty();
         return result;
     }
 
@@ -36,7 +36,7 @@ public class Reward {
         Matrix probability = MDPContext.probabilities.get(index);
         double price = MDPContext.prices.get(index);
         for(int i = 0; i < item; ++i) {
-            result += probability.get(item, i) * (0.75 * i *  - (item - i) * 0.25 * i);
+            result += probability.get(item, i) * (0.75 * i * price  - (item - i) * 0.25 * price);
         }
         return result;
     }
