@@ -3,6 +3,7 @@ package test;
 import mdp.component.Action;
 import mdp.component.State;
 import mdp.component.Transaction;
+import mdp.util.MDPContext;
 import problem.Matrix;
 
 import org.junit.Test;
@@ -32,8 +33,8 @@ public class testTransaction {
 		 action.setOrderList(orderList);
 		 action.setReturnList(returnList);
 		 Transaction transaction = new Transaction(currentState, newState, action);
-		 transaction.types = 2;
-		 transaction.capacity = 4;
+		 MDPContext.MaxType = 2;
+		 MDPContext.maxStore = 4;
 		 
 		 double[][] coke = new double[5][5];
 		 for(int i = 0; i < 5; i++){

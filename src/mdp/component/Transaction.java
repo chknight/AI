@@ -2,6 +2,7 @@ package mdp.component;
 
 import java.util.List;
 
+import mdp.util.MDPContext;
 import problem.Matrix;
 
 /**
@@ -13,10 +14,9 @@ public class Transaction {
 	
 	private State oldState;
 	private State newState;
-	public static int types;
-	public static int capacity;
-	public static List<Matrix> probabilities;
 	public Action action;
+	public static List<Matrix> probabilities;
+	
 
 	
 	
@@ -43,7 +43,7 @@ public class Transaction {
 		}
 		if(newStock == 0){
 			double result = 0;
-			for(int i = lastStock + orderItems - returnItems; i < capacity + 1; i++){
+			for(int i = lastStock + orderItems - returnItems; i < MDPContext.maxStore + 1; i++){
 				//result += 0.5;
 				result += probabilities.get(itemIndex).get(lastStock + orderItems - returnItems, i);
 				//System.out.println(probabilities.get(itemIndex).get(lastStock + orderItems - returnItems, i));
@@ -57,7 +57,7 @@ public class Transaction {
 	//get the transaction probabilities between two states
 	public double getTransactionValue(){
 		double result = 1;
-		for(int i = 0; i < types; i++){
+		for(int i = 0; i < MDPContext.MaxType; i++){
 			int lastStock = oldState.getItems().get(i);
 			int orderItems = action.getOrderList().get(i);
 			int returnItems = action.getReturnList().get(i);
