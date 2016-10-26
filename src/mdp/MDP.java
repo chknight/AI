@@ -32,6 +32,7 @@ public class MDP {
             MDPContext.probabilities = problemSpec.getProbabilities();
             MDPContext.prices = problemSpec.getPrices();
             MDPContext.MaxType = problemSpec.getStore().getMaxTypes();
+            MDPContext.discountFactor = problemSpec.getDiscountFactor();
             Action.maxOrder = problemSpec.getStore().getMaxPurchase();
             Action.maxReturn = problemSpec.getStore().getMaxReturns();
             State.maxStore = problemSpec.getStore().getCapacity();

@@ -2,6 +2,8 @@ package mdp.component;
 
 import java.util.ArrayList;
 
+import mdp.util.MDPContext;
+
 /**
  * The value function for the MDP solution
  * Created by ch_knight on 10/22/2016.
@@ -45,7 +47,7 @@ public class ValueFunction {
 					double probability = transaction.getTransactionValue();
 					futureReward += probability * nextState.value;
 				}
-				double newValue = immediateReward + 0.95 * futureReward;
+				double newValue = immediateReward + MDPContext.discountFactor * futureReward;
 				if(newValue > state.value){
 					state.lastValue = state.value;
 					state.value = newValue;

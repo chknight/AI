@@ -19,4 +19,5 @@ public class MDPContext {
     public static int maxStore;
     public static double cutoffPenalytPerItem;
     public static Map<State, Double> valueFunction;
+    public static double discountFactor;
 }
