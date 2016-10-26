@@ -32,11 +32,11 @@ public class ValueFunction {
 		state.value = currentValue;
 	}
 	
-	public void getValue(State state){
+	public static void getValue(State state){
 		
 		while(state.value - state.lastValue > 0.0000001){
 			Action bestAction;
-			for(Action action : ActionGenerator.allPossibleList){
+			for(Action action : ActionGenerator.getPossibleActions(state)){
 				double immediateReward = Reward.calculateTotalReward(state, action);
 				double futureReward = 0;
 				
