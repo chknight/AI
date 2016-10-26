@@ -20,4 +20,5 @@ public class MDPContext {
     public static double cutoffPenalytPerItem;
     public static Map<State, Double> valueFunction;
     public static double discountFactor;
+    public static Map<List<Integer>, State> allStates;
 }

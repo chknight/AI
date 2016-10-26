@@ -17,16 +17,22 @@ import problem.Matrix;
 public class Transaction {
 	
 	private State oldState;
-	private State newState;
 	public Action action;
+	private State newState;
 	public static List<Matrix> probabilities;
 	
 
 	
 	
-	public Transaction(State oldState, State newState, Action action){
-		this.newState = newState;
+	public Transaction(State oldState, Action action){
 		this.oldState = oldState;
+		this.action = action;
+		//types = oldState.getTypeOfItems();
+	}
+
+	public Transaction(State oldState, State newState, Action action){
+		this.oldState = oldState;
+		this.newState = newState;
 		this.action = action;
 		//types = oldState.getTypeOfItems();
 	}
@@ -59,7 +65,7 @@ public class Transaction {
 	}
 	
 	//get the transaction probabilities between two states
-	public double getTransactionValue(){
+	public double getTransactionValue(State newState){
 		double result = 1;
 		for(int i = 0; i < MDPContext.MaxType; i++){
 			int lastStock = oldState.getItems().get(i);
@@ -72,7 +78,29 @@ public class Transaction {
 		return result;
 	}
 
-	public Map<State, Double> getAllProabilities(State currentState, Action action) {
+	public double getTransactionValue(){
+		return getTransactionValue(this.newState);
+	}
+
+	public static Map<State, Double> getAllProabilities(State currentState, Action action) {
+
+		Transaction transaction = new Transaction(currentState, action);
+
+
+		Map<State, Double> probabilities = new HashMap<>();
+
+		List<State> possibleState = getAllPossibleState(currentState, action);
+
+		for(State state : possibleState) {
+			double probability = transaction.getTransactionValue(state);
+			probabilities.put(state, probability);
+		}
+
+		return probabilities;
+
+	}
+
+	public static List<List<Integer>> getAllPossibleItemList(State currentState, Action action) {
 		int[] indexes = new int[MDPContext.MaxType];
 		int[] arrayLength = new int[MDPContext.MaxType];
 		List<Integer> currentItems = currentState.getItems();
@@ -81,34 +109,35 @@ public class Transaction {
 			arrayLength[i] = currentItems.get(i);
 		}
 
-
 		for(int i = 0; i < currentItems.size(); ++i) {
 			arrayLength[i] = currentItems.get(i);
 		}
-		List<State> possibleState = new ArrayList<>();
-
-		Map<State, Double> proabilities = new HashMap<>();
-
+		List<List<Integer>> possibleState = new ArrayList<>();
 		generateAllPossibleState(indexes, arrayLength, 0, possibleState);
-
-		for(int i = 0; i < possibleState.size(); ++i) {
-
-		}
-
-		return proabilities;
-
+		return possibleState;
 	}
 
-	public void generateAllPossibleState(int[] currentIndex, int [] length, int index, List<State> possibleState) {
+	public static List<State> getAllPossibleState(State currentState, Action action) {
+		List<List<Integer>> allPossibleList = getAllPossibleItemList(currentState, action);
+		List<State> allPossibleStates = new ArrayList<>();
+		for (List<Integer> possibleList : allPossibleList) {
+			State temp = MDPContext.allStates.get(possibleList);
+			if(temp == null) {
+				temp = new State(possibleList);
+				MDPContext.allStates.put(possibleList, temp);
+			}
+		}
+		return allPossibleStates;
+	}
+
+	public static void generateAllPossibleState(int[] currentIndex, int [] length, int index, List<List<Integer>> possibleState) {
 		// end of recursive, add the state to the list
 		if(index >= currentIndex.length) {
 			List<Integer> items = new ArrayList<>(currentIndex.length);
 			for(int i = 0; i < currentIndex[i]; ++i) {
 				items.add(currentIndex[i]);
 			}
-			State state = new State(MDPContext.MaxType);
-			state.setItems(items);
-			possibleState.add(state);
+			possibleState.add(items);
 		} else {
 			for(int i = 0; i <= length[index]; ++i) {
 				int[] newArray = currentIndex.clone();

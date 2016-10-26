@@ -38,10 +38,12 @@ public class State {
     public State(int typeOfItems) {
         this.typeOfItems = typeOfItems;
         items = new ArrayList<>();
+        value = 0;
+        lastValue = 0;
     }
 
-    public State(int typeOfItems, List<Integer> initialState) {
-        this.typeOfItems = typeOfItems;
+    public State(List<Integer> initialState) {
+        this(initialState.size());
         items = new ArrayList<>(initialState);
     }
 
