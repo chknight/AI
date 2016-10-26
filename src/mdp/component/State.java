@@ -26,7 +26,9 @@ public class State {
     private List<Integer> items;
 
     public int currentWeek;
-    
+
+    private boolean isSolved = false;
+
     public double value;
     public double lastValue;
     public Action bestAction;
@@ -121,5 +123,13 @@ public class State {
     public ArrayList<State> generateAllStates(){
     	ArrayList<State> states = new ArrayList<State>();
     	return states;
+    }
+
+    public boolean isSolved() {
+        return isSolved;
+    }
+
+    public void setSolved(boolean solved) {
+        isSolved = solved;
     }
 }

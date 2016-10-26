@@ -1,7 +1,11 @@
 package mdp.component;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import mdp.MDP;
 import mdp.util.MDPContext;
 import problem.Matrix;
 
@@ -67,5 +71,52 @@ public class Transaction {
 		}	
 		return result;
 	}
+
+	public Map<State, Double> getAllProabilities(State currentState, Action action) {
+		int[] indexes = new int[MDPContext.MaxType];
+		int[] arrayLength = new int[MDPContext.MaxType];
+		List<Integer> currentItems = currentState.getItems();
+		for(int i = 0; i < indexes.length; ++i) {
+			indexes[i] = 0;
+			arrayLength[i] = currentItems.get(i);
+		}
+
+
+		for(int i = 0; i < currentItems.size(); ++i) {
+			arrayLength[i] = currentItems.get(i);
+		}
+		List<State> possibleState = new ArrayList<>();
+
+		Map<State, Double> proabilities = new HashMap<>();
+
+		generateAllPossibleState(indexes, arrayLength, 0, possibleState);
+
+		for(int i = 0; i < possibleState.size(); ++i) {
+
+		}
+
+		return proabilities;
+
+	}
+
+	public void generateAllPossibleState(int[] currentIndex, int [] length, int index, List<State> possibleState) {
+		// end of recursive, add the state to the list
+		if(index >= currentIndex.length) {
+			List<Integer> items = new ArrayList<>(currentIndex.length);
+			for(int i = 0; i < currentIndex[i]; ++i) {
+				items.add(currentIndex[i]);
+			}
+			State state = new State(MDPContext.MaxType);
+			state.setItems(items);
+			possibleState.add(state);
+		} else {
+			for(int i = 0; i <= length[index]; ++i) {
+				int[] newArray = currentIndex.clone();
+				newArray[index] = i;
+				generateAllPossibleState(newArray, length, index+1, possibleState);
+			}
+		}
+	}
+
 }
 
