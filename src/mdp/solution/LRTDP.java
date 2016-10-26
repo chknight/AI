@@ -9,9 +9,7 @@ import problem.Simulator;
 import solver.OrderingAgent;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * The LRTDP method to find the solution of MDP
@@ -79,7 +77,17 @@ public class LRTDP implements OrderingAgent {
                 resolved = false;
             } else {
                 Action action = greedyAction(currentState);
-
+                Map<State, Double> possibleStates = Transaction.getAllProabilities(state, action);
+                Set<State> allKeys = possibleStates.keySet();
+                State[] states = (State[])allKeys.toArray();
+                for(State temp : states) {
+                    Double probability = possibleStates.get(state);
+                    if(probability > 0) {
+                        if(!temp.isSolved() && ! open.contains(temp) && ! close.contains(temp)) {
+                            open.add(temp);
+                        }
+                    }
+                }
             }
         }
         if(resolved) {
