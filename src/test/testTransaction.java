@@ -27,8 +27,8 @@ public class testTransaction {
 		 generateNewState();
 		 generateOrderList();
 		 generateReturnList();
-		 State currentState = new State(2, initialStock);
-		 State newState = new State(2, newStock);
+		 State currentState = new State(initialStock);
+		 State newState = new State(newStock);
 		 Action action = new Action();
 		 action.setOrderList(orderList);
 		 action.setReturnList(returnList);

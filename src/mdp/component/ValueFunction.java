@@ -42,7 +42,7 @@ public class ValueFunction {
 				double immediateReward = Reward.calculateTotalReward(state, action);
 				double futureReward = 0;
 				
-				for(State nextState : state.generateAllStates()){
+				for(State nextState : Transaction.getAllPossibleState(state, action)){
 					Transaction transaction = new Transaction(state, nextState, action);
 					double probability = transaction.getTransactionValue();
 					futureReward += probability * nextState.value;
