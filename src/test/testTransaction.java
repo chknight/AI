@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class testTransaction {
 
@@ -86,7 +85,7 @@ public class testTransaction {
 		}
 		Map<State, Double> allProbablities;
 		System.out.println("Begin to test probabilities ---------------------");
-		allProbablities = Transaction.getAllProabilities(state, action);
+		allProbablities = Transaction.getAllProbabilities(state, action);
 		double[] expectedValue = new double[4];
 		expectedValue[0] = 0.4 * 0.6 + 0.2 * 0.2 + 0.2 * 0.6 + 0.4 * 0.2;
 		expectedValue[1] = 0.2 * 0.4 + 0.2 * 0.2;

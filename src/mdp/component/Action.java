@@ -69,6 +69,11 @@ public class Action {
             }
             adjustItem(newItems, totalAmount);
             newState.setItems(newItems);
+            if(MDPContext.allStates.get(newItems) == null) {
+                MDPContext.allStates.put(newItems, newState);
+            } else {
+                newState = MDPContext.allStates.get(newItems);
+            }
         } else {
             return null;
         }

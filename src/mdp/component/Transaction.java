@@ -72,7 +72,7 @@ public class Transaction {
 		return getTransactionValue(this.newState);
 	}
 
-	public static Map<State, Double> getAllProabilities(State currentState, Action action) {
+	public static Map<State, Double> getAllProbabilities(State currentState, Action action) {
 
 		Transaction transaction = new Transaction(currentState, action);
 
@@ -87,7 +87,20 @@ public class Transaction {
 		}
 
 		return probabilities;
+	}
 
+	public static Map<State, Double> getAllProbabilities(State currentState, List<State> possibleState, Action action) {
+
+		Transaction transaction = new Transaction(currentState, action);
+
+		Map<State, Double> probabilities = new HashMap<>();
+
+		for(State state : possibleState) {
+			double probability = transaction.getTransactionValue(state);
+			probabilities.put(state, probability);
+		}
+
+		return probabilities;
 	}
 
 	public static List<List<Integer>> getAllPossibleItemList(State currentState, Action action) {
