@@ -68,7 +68,7 @@ public class LRTDP implements OrderingAgent {
 
     // apply greedy method to get next action to apply
     public Action greedyAction(State currentState) {
-        ValueFunction.getValue(currentState);
+        ValueFunction.getOneIterationValue(currentState);
         return currentState.bestAction;
     }
 

@@ -10,56 +10,72 @@ import mdp.util.MDPContext;
  */
 public class ValueFunction {
 	
-	private ArrayList<State> states;
-	private static int maxPurchase;
-	private static int maxReturn;
+	//private ArrayList<State> states;
+
 	
-	public ValueFunction(ArrayList<State> states){
-		this.states = states;
-		for(State state : this.states){
-			state.value = 0;
-			state.lastValue = 0;
-		}
+	public ValueFunction(){
 		
 	}
 	
-	public void setFirstIterationValue(State state){
-		double currentValue = Integer.MIN_VALUE;
-		
-		for(Action action : ActionGenerator.allPossibleList){
-			if(Reward.calculateTotalReward(state, action) > currentValue){
-				currentValue = Reward.calculateTotalReward(state, action);
-			}
+	public static void setFirstIterationValue(State currentState){
+		StateGenerator.generateAllState();
+		for(State state : MDPContext.stateList){
+			double currentValue = Reward.calculateTotalReward(state);
+			state.value = currentValue;
 		}
-		state.value = currentValue;
 	}
 	
-	public static void getValue(State state){
-		
-		while(state.value - state.lastValue > 0.0000001){
-			Action bestAction;
-			for(Action action : ActionGenerator.getPossibleActions(state)){
-				double immediateReward = Reward.calculateTotalReward(state, action);
-				double futureReward = 0;
-				
-				for(State nextState : Transaction.getAllPossibleState(state, action)){
-					Transaction transaction = new Transaction(state, nextState, action);
-					double probability = transaction.getTransactionValue();
-					futureReward += probability * nextState.value;
+	public static void getValue(){
+		for(State state : MDPContext.stateList){
+			while(state.value - state.lastValue > 0.0000001){
+				for(Action action : ActionGenerator.getPossibleActions(state)){
+					double immediateReward = Reward.calculateTotalReward(state, action);
+					double futureReward = 0;
+					
+					for(State nextState : Transaction.getAllPossibleState(state, action)){
+						
+						Transaction transaction = new Transaction(state, nextState, action);
+						double probability = transaction.getTransactionValue();
+						//System.out.println(nextState.value);
+						futureReward += probability * nextState.value;
+					}
+					double newValue = immediateReward + MDPContext.discountFactor * futureReward;
+					
+					if(newValue > state.value){
+						state.lastValue = state.value;
+						state.value = newValue;
+						state.bestAction = action;
+					}	
 				}
-				double newValue = immediateReward + MDPContext.discountFactor * futureReward;
-				if(newValue > state.value){
-					state.lastValue = state.value;
-					state.value = newValue;
-					state.bestAction = action;
-				}	
 			}
+		}
+		
+	}
+	
+	public static void getOneIterationValue(State state){
+		for(Action action : ActionGenerator.getPossibleActions(state)){
+			double immediateReward = Reward.calculateTotalReward(state, action);
+			double futureReward = 0;
+			
+			for(State nextState : Transaction.getAllPossibleState(state, action)){
+				Transaction transaction = new Transaction(state, nextState, action);
+				double probability = transaction.getTransactionValue();
+				System.out.println(nextState.value);
+				futureReward += probability * nextState.value;
+			}
+			double newValue = immediateReward + MDPContext.discountFactor * futureReward;
+			
+			if(newValue > state.value){
+				state.lastValue = state.value;
+				state.value = newValue;
+				state.bestAction = action;
+			}	
 		}
 	}
 	
-	public void getValueForAllStates(){
+	/*public void getValueForAllStates(){
 		for(State state : states){
 			getValue(state);
 		}
-	}
+	}*/
 }
