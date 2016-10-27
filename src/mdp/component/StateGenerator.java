@@ -7,6 +7,7 @@ import mdp.util.UtilFunctions;
 import java.util.*;
 
 /**
+ * This class generate all the possible states
  * Created by ch_knight on 10/27/2016.
  */
 public class StateGenerator {

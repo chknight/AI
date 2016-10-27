@@ -18,15 +18,15 @@ public class Reward {
 
     public static double calculateTotalReward(State initialState) {
         if(zeroAction == null) {
-            Action action = new Action();
+            zeroAction = new Action();
             List<Integer> orderList = new ArrayList<>();
             List<Integer> returnList = new ArrayList<>();
             for(int i = 0; i < MDPContext.MaxType; ++i) {
                 orderList.add(0);
                 returnList.add(0);
             }
-            action.setOrderList(orderList);
-            action.setReturnList(returnList);
+            zeroAction.setOrderList(orderList);
+            zeroAction.setReturnList(returnList);
         }
         return calculateTotalReward(initialState, zeroAction);
     }
