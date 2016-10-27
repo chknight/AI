@@ -16,38 +16,32 @@ import problem.Matrix;
  */
 public class Transaction {
 	
-	private State oldState;
-	public Action action;
-	private State newState;
-	public static List<Matrix> probabilities;
+	private static State oldState;
+	//public Action action;
+	private static State newState;
+	//public static List<Matrix> probabilities;
 	
 
-	
-	
-	public Transaction(State oldState, Action action){
-		this.oldState = oldState;
-		this.action = action;
-	}
-
-	public Transaction(State oldState, State newState, Action action){
-		this.oldState = oldState;
-		this.newState = newState;
-		this.action = action;
-	}
 
 	//get the probabilities of one single item
-	public double getProbabilityForOneItem(int lastStock, int orderItems, int returnItems, int newStock, int itemIndex){
+	public static double getProbabilityForOneItem(int lastStock, int newStock, int itemIndex){
 		
-		if(newStock > lastStock + orderItems - returnItems){
+		if(newStock > lastStock){
 			return 0;
 		}
-		if(newStock > 0 && newStock <= lastStock + orderItems - returnItems){
-			return probabilities.get(itemIndex).get(lastStock + orderItems - returnItems, lastStock + orderItems - returnItems - newStock);
+		if(newStock > 0 && newStock <= lastStock){
+			//System.out.println("itemIndex:" + itemIndex);
+			//System.out.println("second:" + (lastStock + orderItems - returnItems));
+			//System.out.println("lastStock:" + lastStock);
+			//System.out.println("orderItem:" + orderItems);
+			//System.out.println("third:" + (lastStock + orderItems - returnItems - newStock));
+			return MDPContext.probabilities.get(itemIndex).get(lastStock, lastStock - newStock);
 		}
 		if(newStock == 0){
 			double result = 0;
-			for(int i = lastStock + orderItems - returnItems; i < MDPContext.maxStore + 1; i++){
-				result += probabilities.get(itemIndex).get(lastStock + orderItems - returnItems, i);
+			for(int i = lastStock; i < MDPContext.maxStore + 1; i++){
+				
+				result += MDPContext.probabilities.get(itemIndex).get(lastStock, i);
 			}
 			return result;
 		}
@@ -55,26 +49,23 @@ public class Transaction {
 	}
 	
 	//get the transaction probabilities between two states
-	public double getTransactionValue(State newState){
+	public static double getTransactionValue(State currentState, State newState){
 		double result = 1;
 		for(int i = 0; i < MDPContext.MaxType; i++){
-			int lastStock = oldState.getItems().get(i);
-			int orderItems = action.getOrderList().get(i);
-			int returnItems = action.getReturnList().get(i);
+			int lastStock = currentState.getItems().get(i);
+			//int orderItems = action.getOrderList().get(i);
+			//int returnItems = action.getReturnList().get(i);
 			int newStock = newState.getItems().get(i);
-			double prob = getProbabilityForOneItem(lastStock, orderItems, returnItems, newStock, i);
+			double prob = getProbabilityForOneItem(lastStock, newStock, i);
+			
 			result *= prob;
 		}	
 		return result;
 	}
 
-	public double getTransactionValue(){
-		return getTransactionValue(this.newState);
-	}
+	
 
 	public static Map<State, Double> getAllProabilities(State currentState, Action action) {
-
-		Transaction transaction = new Transaction(currentState, action);
 
 
 		Map<State, Double> probabilities = new HashMap<>();
@@ -82,7 +73,7 @@ public class Transaction {
 		List<State> possibleState = getAllPossibleState(currentState, action);
 
 		for(State state : possibleState) {
-			double probability = transaction.getTransactionValue(state);
+			double probability = getTransactionValue(currentState, state);
 			probabilities.put(state, probability);
 		}
 

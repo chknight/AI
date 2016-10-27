@@ -17,9 +17,10 @@ public class ValueFunction {
 		
 	}
 	
-	public static void setFirstIterationValue(State currentState){
-		StateGenerator.generateAllState();
+	public static void setFirstIterationValue(){
+		
 		for(State state : MDPContext.stateList){
+			//System.out.println("states:" + state.toString());
 			double currentValue = Reward.calculateTotalReward(state);
 			state.value = currentValue;
 		}
@@ -28,20 +29,25 @@ public class ValueFunction {
 	public static void getValue(){
 		for(State state : MDPContext.stateList){
 			while(state.value - state.lastValue > 0.0000001){
+				System.out.println("new:" +state.value);
+				System.out.println("last:" +state.lastValue);
 				for(Action action : ActionGenerator.getPossibleActions(state)){
 					double immediateReward = Reward.calculateTotalReward(state, action);
 					double futureReward = 0;
 					
+					State temp = action.generateNewState(state);
+					
 					for(State nextState : Transaction.getAllPossibleState(state, action)){
 						
-						Transaction transaction = new Transaction(state, nextState, action);
-						double probability = transaction.getTransactionValue();
+						
+						double probability = Transaction.getTransactionValue(temp, nextState);
 						//System.out.println(nextState.value);
 						futureReward += probability * nextState.value;
 					}
 					double newValue = immediateReward + MDPContext.discountFactor * futureReward;
-					
-					if(newValue > state.value){
+					System.out.println("newValue:" +newValue);
+					System.out.println("lastValue:" +state.lastValue);
+					if(newValue >= state.value){
 						state.lastValue = state.value;
 						state.value = newValue;
 						state.bestAction = action;
@@ -57,14 +63,18 @@ public class ValueFunction {
 			double immediateReward = Reward.calculateTotalReward(state, action);
 			double futureReward = 0;
 			
+			State temp = action.generateNewState(state);
+			
 			for(State nextState : Transaction.getAllPossibleState(state, action)){
-				Transaction transaction = new Transaction(state, nextState, action);
-				double probability = transaction.getTransactionValue();
-				System.out.println(nextState.value);
+				
+				double probability = Transaction.getTransactionValue(temp, nextState);
+				//System.out.println("next state prob:" + probability);
+				//System.out.println("next state value:" + nextState.value);
 				futureReward += probability * nextState.value;
 			}
 			double newValue = immediateReward + MDPContext.discountFactor * futureReward;
-			
+			//System.out.println("immi:" + immediateReward);
+			//System.out.println("future:" + MDPContext.discountFactor * futureReward);
 			if(newValue > state.value){
 				state.lastValue = state.value;
 				state.value = newValue;
