@@ -1,4 +1,4 @@
-package mdp.solution;
+package solver;
 
 import mdp.component.*;
 import mdp.util.MDPContext;
@@ -23,6 +23,8 @@ public class LRTDP implements OrderingAgent {
 
     long maxTime = 55 * 1000;
 
+    double factor = 1e-7;
+
     List<State> solveState;
 
     public LRTDP(ProblemSpec problemSpec) {
@@ -33,6 +35,7 @@ public class LRTDP implements OrderingAgent {
         MDPContext.cutoffPenalytPerItem = problemSpec.getPenaltyFee();
         MDPContext.discountFactor = problemSpec.getDiscountFactor();
         MDPContext.problemSpec = problemSpec;
+        MDPContext.probabilities = problemSpec.getProbabilities();
         StateGenerator.generateAllState();
         Action.maxOrder = problemSpec.getStore().getMaxPurchase();
         Action.maxReturn = problemSpec.getStore().getMaxReturns();
@@ -53,10 +56,11 @@ public class LRTDP implements OrderingAgent {
     @Override
     public List<Integer> generateStockOrder(List<Integer> inventory, int numWeeksLeft) {
         State currentState = MDPContext.allStates.get(inventory);
-        if(currentState != null) {
+        if(currentState == null) {
             currentState = new State(inventory);
+            MDPContext.allStates.put(inventory, currentState);
         }
-        Action action = getNextStep(currentState, MDPContext.discountFactor);
+        Action action = getNextStep(currentState, factor);
         return action.getOrderList();
     }
 
@@ -67,10 +71,14 @@ public class LRTDP implements OrderingAgent {
 
     public Action getNextStep(State currentState,  double factor) {
         Stack<State> visited = new Stack<>();
-        Action result = new Action();
+        State previousState = currentState;
         long startTime = System.currentTimeMillis();
         long currentTime;
-        while(currentState.isSolved()) {
+        while(!currentState.isSolved()) {
+            currentTime = System.currentTimeMillis();
+            if(currentTime - startTime >= maxTime) {
+                break;
+            }
             visited.push(currentState);
             Action nextAction = greedyAction(currentState);
             currentState = getNextState(currentState, nextAction);
@@ -79,7 +87,8 @@ public class LRTDP implements OrderingAgent {
             State state = visited.pop();
             checkSolved(state, factor);
         }
-        return result;
+        System.out.println("One of the get next Step end, the time is " +  (System.currentTimeMillis() - startTime));
+        return previousState.bestAction;
     }
 
     // apply greedy method to get next action to apply
@@ -102,11 +111,10 @@ public class LRTDP implements OrderingAgent {
             if(!residual(state, factor)) {
                 resolved = false;
             } else {
-                Action action = greedyAction(currentState);
+                Action action = greedyAction(state);
+                List<State> allStates = Transaction.getAllPossibleState(state);
                 Map<State, Double> possibleStates = Transaction.getAllProbabilities(state, action);
-                Set<State> allKeys = possibleStates.keySet();
-                State[] states = (State[])allKeys.toArray();
-                for(State temp : states) {
+                for(State temp : allStates) {
                     Double probability = possibleStates.get(state);
                     if(probability > 0) {
                         if(!temp.isSolved() && ! open.contains(temp) && ! close.contains(temp)) {

@@ -18,7 +18,7 @@ public class Runner {
 	private static int numSimulations = 0; 
 	
 	/** The default solver to use. */
-	public static String DEFAULT_SOLVER = "solver.MySolver";
+	public static String DEFAULT_SOLVER = "solver.LRTDP";
 	/** The name of the solver class that will be used. */
 	private static String solverName = null;
 	
