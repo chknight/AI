@@ -2,6 +2,7 @@ package solver;
 
 import mdp.component.*;
 import mdp.util.MDPContext;
+import mdp.util.UtilFunctions;
 import problem.ProblemSpec;
 import problem.Simulator;
 import solver.OrderingAgent;
@@ -28,18 +29,7 @@ public class LRTDP implements OrderingAgent {
     List<State> solveState;
 
     public LRTDP(ProblemSpec problemSpec) {
-        MDPContext.MaxType = problemSpec.getStore().getMaxTypes();
-        MDPContext.maxStore = problemSpec.getStore().getCapacity();
-        MDPContext.prices = problemSpec.getPrices();
-        MDPContext.allStates = new HashMap<>();
-        MDPContext.cutoffPenalytPerItem = problemSpec.getPenaltyFee();
-        MDPContext.discountFactor = problemSpec.getDiscountFactor();
-        MDPContext.problemSpec = problemSpec;
-        MDPContext.probabilities = problemSpec.getProbabilities();
-        StateGenerator.generateAllState();
-        Action.maxOrder = problemSpec.getStore().getMaxPurchase();
-        Action.maxReturn = problemSpec.getStore().getMaxReturns();
-        ActionGenerator.generateAllActions(Action.maxOrder, Action.maxReturn);
+        UtilFunctions.initializeMDPContext(problemSpec);
         if(MDPContext.MaxType <= 3) {
             maxTime = 28 * 1000;
         } else {

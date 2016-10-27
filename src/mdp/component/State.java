@@ -38,8 +38,8 @@ public class State {
     public State(int typeOfItems) {
         this.typeOfItems = typeOfItems;
         items = new ArrayList<>();
-        value = 0;
-        lastValue = 0;
+        value = Double.MIN_VALUE;
+        lastValue = Double.MIN_VALUE;
     }
 
     public State(List<Integer> initialState) {
