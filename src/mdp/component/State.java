@@ -106,8 +106,17 @@ public class State {
             return false;
         }
     }
-    
-    
+
+
+    @Override
+    public String toString() {
+        String result = "The order is: ";
+        for(Integer item : items) {
+            result += item + " ";
+        }
+        return result;
+    }
+
     public void initialize2DArray(){
     	nextState = new ArrayList<Integer>();
     }

@@ -98,10 +98,6 @@ public class Transaction {
 			indexes[i] = 0;
 			arrayLength[i] = currentItems.get(i);
 		}
-
-		for(int i = 0; i < currentItems.size(); ++i) {
-			arrayLength[i] = currentItems.get(i);
-		}
 		List<List<Integer>> possibleState = new ArrayList<>();
 		generateAllPossibleState(indexes, arrayLength, 0, possibleState);
 		return possibleState;
@@ -116,6 +112,7 @@ public class Transaction {
 				temp = new State(possibleList);
 				MDPContext.allStates.put(possibleList, temp);
 			}
+			allPossibleStates.add(temp);
 		}
 		return allPossibleStates;
 	}
@@ -124,7 +121,7 @@ public class Transaction {
 		// end of recursive, add the state to the list
 		if(index >= currentIndex.length) {
 			List<Integer> items = new ArrayList<>(currentIndex.length);
-			for(int i = 0; i < currentIndex[i]; ++i) {
+			for(int i = 0; i < currentIndex.length; ++i) {
 				items.add(currentIndex[i]);
 			}
 			possibleState.add(items);

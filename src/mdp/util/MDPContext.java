@@ -4,6 +4,7 @@ import mdp.component.State;
 import problem.Matrix;
 import problem.ProblemSpec;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,5 +21,5 @@ public class MDPContext {
     public static double cutoffPenalytPerItem;
     public static Map<State, Double> valueFunction;
     public static double discountFactor;
-    public static Map<List<Integer>, State> allStates;
+    public static Map<List<Integer>, State> allStates = new HashMap<>();
 }

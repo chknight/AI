@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class testTransaction {
 
@@ -63,6 +64,26 @@ public class testTransaction {
 		 //System.out.println(transaction.getProbabilityForOneItem(3, 0, 0, 3, 0));
 		 assertTrue(transaction.getTransactionValue() == 0.24);
 	 }
+
+	@Test
+	public void testAllPossibleFunctions() {
+		TesterInitialize.initiizeWith2();
+		State state = new State(2);
+		List<Integer> items = new ArrayList<>(2);
+		items.add(1);
+		items.add(1);
+		state.setItems(items);
+		Action action = new Action();
+		List<Integer> temp = new ArrayList<>(2);
+		temp.add(0);
+		temp.add(0);
+		action.setReturnList(temp);
+		action.setOrderList(temp);
+		List<State> allStates =  Transaction.getAllPossibleState(state, action);
+		for(State current : allStates) {
+			System.out.println(current.toString());
+		}
+	}
 	
 	
 	public void generateInitialState(){
