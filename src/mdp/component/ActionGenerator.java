@@ -1,6 +1,7 @@
 package mdp.component;
 
 import mdp.util.MDPContext;
+import mdp.util.UtilFunctions;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,8 +32,8 @@ public class ActionGenerator {
             initialReturnList.add(0);
         }
 
-        generateAllPossibleList(initialOrderList, 0, maxPurchase, possibleOrderSet);
-        generateAllPossibleList(initialReturnList,0, maxReturn, possibleReturnSet);
+        UtilFunctions.generateAllPossibleList(initialOrderList, 0, maxPurchase, possibleOrderSet);
+        UtilFunctions.generateAllPossibleList(initialReturnList,0, maxReturn, possibleReturnSet);
 
 
         List<List<Integer>> orderLists = new ArrayList<>(possibleOrderSet);
@@ -53,18 +54,7 @@ public class ActionGenerator {
         }
     }
 
-    public static void generateAllPossibleList(List<Integer> currentList, int total, int max, Set<List<Integer>> possibleList) {
-        if(total <= max) {
-            possibleList.add(currentList);
-            for(int i = 0; i < currentList.size(); ++i) {
-                List<Integer> temp = new ArrayList<>(currentList);
-                temp.set(i, currentList.get(i) + 1);
-                if(!possibleList.contains(temp)) {
-                    generateAllPossibleList(temp, total + 1, max, possibleList);
-                }
-            }
-        }
-    }
+
 
     public static boolean isValid(List<Integer> orderList, List<Integer> returnList) {
         for(int i = 0; i < orderList.size(); ++i) {

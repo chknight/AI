@@ -22,4 +22,5 @@ public class MDPContext {
     public static Map<State, Double> valueFunction;
     public static double discountFactor;
     public static Map<List<Integer>, State> allStates = new HashMap<>();
+    public static List<State> stateList;
 }
