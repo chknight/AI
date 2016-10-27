@@ -15,28 +15,16 @@ import java.util.List;
 import java.util.Map;
 
 public class testTransaction {
-/*
+
 	private ArrayList<Integer> initialStock = new ArrayList<Integer>();
 	private ArrayList<Integer> newStock = new ArrayList<Integer>();
 	private ArrayList<Integer> orderList = new ArrayList<Integer>();
 	private ArrayList<Integer> returnList = new ArrayList<Integer>();
-	private List<Matrix> probabilities = new ArrayList<Matrix>();
+	
 	
 	 @Test
 	 public void testTransaction() {
-		 generateInitialState();
-		 generateNewState();
-		 generateOrderList();
-		 generateReturnList();
-		 State currentState = new State(initialStock);
-		 State newState = new State(newStock);
-		 Action action = new Action();
-		 action.setOrderList(orderList);
-		 action.setReturnList(returnList);
-		 Transaction transaction = new Transaction(currentState, newState, action);
-		 MDPContext.MaxType = 2;
-		 MDPContext.maxStore = 4;
-		 
+		 MDPContext.probabilities = new ArrayList<Matrix>();
 		 double[][] coke = new double[5][5];
 		 for(int i = 0; i < 5; i++){
 			 coke[i][0] = 0.3;
@@ -58,11 +46,32 @@ public class testTransaction {
 		 }
 		 Matrix cokeMatrix = new Matrix(coke);
 		 Matrix spriteMatrix = new Matrix(sprite);
-		 probabilities.add(cokeMatrix);
-		 probabilities.add(spriteMatrix);
+		 MDPContext.probabilities.add(cokeMatrix);
+		 MDPContext.probabilities.add(spriteMatrix);
+		 
+		 MDPContext.MaxType = 2;
+		 MDPContext.maxStore = 4;
+		 Action.maxOrder = 2;
+		 Action.maxReturn = 1;
+		 generateInitialState();
+		 generateNewState();
+		 generateOrderList();
+		 generateReturnList();
+		 State currentState = new State(initialStock);
+		 State newState = new State(newStock);
+		 Action action = new Action();
+		 action.setOrderList(orderList);
+		 action.setReturnList(returnList);
+		 
+		 
+		 State temp = action.generateNewState(currentState);
+		 
+		 
+		 
+		
 		 //transaction.probabilities = probabilities;
 		 //System.out.println(transaction.getProbabilityForOneItem(3, 0, 0, 3, 0));
-		 assertTrue(transaction.getTransactionValue() == 0.24);
+		 assertTrue(Transaction.getTransactionValue(temp, newState) == 0.24);
 	 }
 
 	@Test
@@ -105,5 +114,5 @@ public class testTransaction {
 		returnList.add(0);
 		returnList.add(0);
 	}
-	*/
+	
 }
