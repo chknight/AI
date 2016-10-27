@@ -82,12 +82,10 @@ public class Transaction {
 
 	public static Map<State, Double> getAllProbabilities(State currentState, List<State> possibleState, Action action) {
 
-		Transaction transaction = new Transaction(currentState, action);
-
 		Map<State, Double> probabilities = new HashMap<>();
 
 		for(State state : possibleState) {
-			double probability = transaction.getTransactionValue(state);
+			double probability = getTransactionValue(currentState, state);
 			probabilities.put(state, probability);
 		}
 
@@ -97,7 +95,9 @@ public class Transaction {
 	public static List<List<Integer>> getAllPossibleItemList(State currentState, Action action) {
 		int[] indexes = new int[MDPContext.MaxType];
 		int[] arrayLength = new int[MDPContext.MaxType];
-		List<Integer> currentItems = currentState.getItems();
+		State newState = action.generateNewState(currentState);
+		List<Integer> currentItems = newState.getItems();
+
 		for(int i = 0; i < indexes.length; ++i) {
 			indexes[i] = 0;
 			arrayLength[i] = currentItems.get(i);
