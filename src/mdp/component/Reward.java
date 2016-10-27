@@ -1,6 +1,5 @@
 package mdp.component;
 
-import mdp.MDP;
 import mdp.util.MDPContext;
 import problem.Matrix;
 

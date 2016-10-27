@@ -56,7 +56,7 @@ public class Action {
 
     public State generateNewState(State oldState) {
         State newState = new State(oldState);
-        if(isValid(oldState.getItems())) {
+        if(isValid()) {
             int totalAmount = 0;
             List<Integer> items = oldState.getItems();
             List<Integer> newItems = new ArrayList<>();
@@ -81,7 +81,7 @@ public class Action {
     }
 
     // to verify whether the order is valid
-    boolean isValid(List<Integer> items) {
+    boolean isValid() {
 
         // the item to order in
         int numOfOrderItem = 0;

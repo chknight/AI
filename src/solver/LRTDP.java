@@ -51,7 +51,7 @@ public class LRTDP implements OrderingAgent {
             MDPContext.allStates.put(inventory, currentState);
         }
         Action action = getNextStep(currentState, factor);
-        return action.getOrderList();
+        return action.generateOrderList();
     }
 
     public LRTDP() throws IOException {

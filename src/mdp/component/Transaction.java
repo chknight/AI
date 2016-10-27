@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mdp.MDP;
 import mdp.util.MDPContext;
-import problem.Matrix;
 
 /**
  * The transaction function for MDP
@@ -15,14 +13,6 @@ import problem.Matrix;
  * Created by ch_knight on 10/18/2016.
  */
 public class Transaction {
-	
-	private static State oldState;
-	//public Action action;
-	private static State newState;
-	//public static List<Matrix> probabilities;
-	
-
-
 	//get the probabilities of one single item
 	public static double getProbabilityForOneItem(int lastStock, int newStock, int itemIndex){
 		

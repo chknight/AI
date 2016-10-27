@@ -9,20 +9,10 @@ import mdp.util.MDPContext;
  * Created by ch_knight on 10/22/2016.
  */
 public class ValueFunction {
-	
-	//private ArrayList<State> states;
-
-	
-	public ValueFunction(){
-		
-	}
-	
 	public static void setFirstIterationValue(){
 		
 		for(State state : MDPContext.stateList){
-			//System.out.println("states:" + state.toString());
-			double currentValue = Reward.calculateTotalReward(state);
-			state.value = currentValue;
+			state.value = Reward.calculateTotalReward(state);
 		}
 	}
 	public static void getOneIterationValue(State state){
@@ -35,13 +25,9 @@ public class ValueFunction {
 			for(State nextState : Transaction.getAllPossibleState(state, action)){
 				
 				double probability = Transaction.getTransactionValue(temp, nextState);
-				//System.out.println("next state prob:" + probability);
-				//System.out.println("next state value:" + nextState.value);
 				futureReward += probability * nextState.value;
 			}
 			double newValue = immediateReward + MDPContext.discountFactor * futureReward;
-			//System.out.println("immi:" + immediateReward);
-			//System.out.println("future:" + MDPContext.discountFactor * futureReward);
 			if(newValue > state.value){
 				state.lastValue = state.value;
 				state.value = newValue;
@@ -49,10 +35,4 @@ public class ValueFunction {
 			}	
 		}
 	}
-	
-	/*public void getValueForAllStates(){
-		for(State state : states){
-			getValue(state);
-		}
-	}*/
 }

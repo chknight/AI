@@ -42,7 +42,7 @@ public class MySolver implements OrderingAgent {
 	public List<Integer> generateStockOrder(List<Integer> stockInventory,
 											int numWeeksLeft) {
 		System.out.println(MDPContext.allStates.get(stockInventory).toString());
-		return MDPContext.allStates.get(stockInventory).bestAction.getOrderList();
+		return MDPContext.allStates.get(stockInventory).bestAction.generateOrderList();
 	}
 
 	public boolean isAllSolved() {
