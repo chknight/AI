@@ -15,7 +15,7 @@ public class StateGenerator {
         Set<List<Integer>> possibleItemLists = new HashSet<>();
         List<Integer> current = new ArrayList<>(MDPContext.MaxType);
 
-        for(int i = 0; i < current.size(); ++i) {
+        for(int i = 0; i < MDPContext.MaxType; ++i) {
             current.add(0);
         }
 

@@ -1,6 +1,7 @@
 package test;
 
 import mdp.component.State;
+import mdp.component.StateGenerator;
 import mdp.util.MDPContext;
 import org.junit.Test;
 
@@ -23,6 +24,15 @@ public class TestState {
         MDPContext.maxStore = 3;
         testLegalState();
         testIllegalState();
+    }
+
+    @Test
+    public void testGenerateAllStates() {
+        TesterInitialize.initiizeWith2();;
+        StateGenerator.generateAllState();
+        for(State state : MDPContext.stateList) {
+            System.out.println(state.toString());
+        }
     }
 
 
