@@ -5,6 +5,7 @@ import mdp.component.State;
 import mdp.component.Transaction;
 import mdp.component.ValueFunction;
 import mdp.util.MDPContext;
+import problem.ProblemSpec;
 import problem.Simulator;
 import solver.OrderingAgent;
 
@@ -25,14 +26,23 @@ public class LRTDP implements OrderingAgent {
 
     List<State> solveState;
 
-    @Override
-    public void doOfflineComputation() {
+    public void initializeStates() {
 
     }
 
     @Override
+    public void doOfflineComputation() {
+        initializeStates();
+    }
+
+    @Override
     public List<Integer> generateStockOrder(List<Integer> inventory, int numWeeksLeft) {
-        return null;
+        State currentState = MDPContext.allStates.get(inventory);
+        if(currentState != null) {
+            currentState = new State(inventory);
+        }
+        Action action = getNextStep(currentState, MDPContext.discountFactor);
+        return action.getOrderList();
     }
 
     public LRTDP() throws IOException {
@@ -40,7 +50,7 @@ public class LRTDP implements OrderingAgent {
         solveState = new ArrayList<>();
     }
 
-    public Action getNextStep(State currentState, int maxWeek, double factor) {
+    public Action getNextStep(State currentState,  double factor) {
         Stack<State> visited = new Stack<>();
         Action result = new Action();
         long startTime = System.currentTimeMillis();

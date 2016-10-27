@@ -107,6 +107,18 @@ public class Action {
         }
     }
 
+    public List<Integer> generateOrderList() {
+        List<Integer> newList = new ArrayList<>();
+        for(int i = 0; i < orderList.size(); ++i) {
+            if(returnList.get(i) > 0) {
+                newList.add(-returnList.get(i));
+            } else {
+                newList.add(orderList.get(i));
+            }
+        }
+        return newList;
+    }
+
     @Override
     public String toString() {
         String result = "";

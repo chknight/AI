@@ -4,6 +4,7 @@ import mdp.MDP;
 import mdp.util.MDPContext;
 import problem.Matrix;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,23 @@ import java.util.List;
  * Created by ch_knight on 10/18/2016.
  */
 public class Reward {
+
+    public static Action zeroAction = null;
+
+    public static double calculateTotalReward(State initialState) {
+        if(zeroAction == null) {
+            Action action = new Action();
+            List<Integer> orderList = new ArrayList<>();
+            List<Integer> returnList = new ArrayList<>();
+            for(int i = 0; i < MDPContext.MaxType; ++i) {
+                orderList.add(0);
+                returnList.add(0);
+            }
+            action.setOrderList(orderList);
+            action.setReturnList(returnList);
+        }
+        return calculateTotalReward(initialState, zeroAction);
+    }
 
     //calculate the reward according to the current state and action will be applied
     public static double calculateTotalReward(State previousState, Action action) {
