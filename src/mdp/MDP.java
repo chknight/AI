@@ -25,7 +25,6 @@ public class MDP {
         problemSpec = new ProblemSpec();
         try {
             problemSpec.loadInputFile(inputPath);
-            Transaction.probabilities = problemSpec.getProbabilities();
             MDPContext.problemSpec = problemSpec;
             MDPContext.maxStore = problemSpec.getStore().getCapacity();
             MDPContext.cutoffPenalytPerItem = problemSpec.getPenaltyFee();

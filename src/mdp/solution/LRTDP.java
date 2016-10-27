@@ -128,7 +128,7 @@ public class LRTDP implements OrderingAgent {
     // get the next state
     private State getNextState(State currentState, Action action) {
         List<State> allPossibleState = Transaction.getAllPossibleState(currentState, action);
-        Map<State, Double> probabilties = Transaction.getAllProbabilities(currentState, allPossibleState, action);
+        Map<State, Double> probabilties = Transaction.getAllProbabilities(currentState, allPossibleState);
         Random random = new Random();
         double total = 0.0;
         double next = random.nextDouble();

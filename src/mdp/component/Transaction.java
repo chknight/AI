@@ -70,17 +70,19 @@ public class Transaction {
 
 		Map<State, Double> probabilities = new HashMap<>();
 
-		List<State> possibleState = getAllPossibleState(currentState, action);
+		State newState = action.generateNewState(currentState);
+
+		List<State> possibleState = getAllPossibleState(newState);
 
 		for(State state : possibleState) {
-			double probability = getTransactionValue(currentState, state);
+			double probability = getTransactionValue(newState, state);
 			probabilities.put(state, probability);
 		}
 
 		return probabilities;
 	}
 
-	public static Map<State, Double> getAllProbabilities(State currentState, List<State> possibleState, Action action) {
+	public static Map<State, Double> getAllProbabilities(State currentState, List<State> possibleState) {
 
 		Map<State, Double> probabilities = new HashMap<>();
 
@@ -92,11 +94,10 @@ public class Transaction {
 		return probabilities;
 	}
 
-	public static List<List<Integer>> getAllPossibleItemList(State currentState, Action action) {
+	public static List<List<Integer>> getAllPossibleItemList(State currentState) {
 		int[] indexes = new int[MDPContext.MaxType];
 		int[] arrayLength = new int[MDPContext.MaxType];
-		State newState = action.generateNewState(currentState);
-		List<Integer> currentItems = newState.getItems();
+		List<Integer> currentItems = currentState.getItems();
 
 		for(int i = 0; i < indexes.length; ++i) {
 			indexes[i] = 0;
@@ -108,7 +109,12 @@ public class Transaction {
 	}
 
 	public static List<State> getAllPossibleState(State currentState, Action action) {
-		List<List<Integer>> allPossibleList = getAllPossibleItemList(currentState, action);
+		State newState = action.generateNewState(currentState);
+		return getAllPossibleState(newState);
+	}
+
+	public static List<State> getAllPossibleState(State currentState) {
+		List<List<Integer>> allPossibleList = getAllPossibleItemList(currentState);
 		List<State> allPossibleStates = new ArrayList<>();
 		for (List<Integer> possibleList : allPossibleList) {
 			State temp = MDPContext.allStates.get(possibleList);

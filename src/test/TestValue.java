@@ -41,7 +41,7 @@ public class TestValue {
 		
 		ActionGenerator.generateAllActions(maxPurchase, maxReturn);
 		
-		ValueFunction.setFirstIterationValue(state);
+		ValueFunction.setFirstIterationValue();
 		System.out.println(state.value);
 		//ValueFunction.getOneIterationValue(state);
 		//System.out.println(state.value);

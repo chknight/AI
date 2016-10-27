@@ -79,19 +79,36 @@ public class testTransaction {
 		TesterInitialize.initiizeWith2();
 		State state = new State(2);
 		List<Integer> items = new ArrayList<>(2);
-		items.add(1);
-		items.add(1);
+		items.add(0);
+		items.add(0);
 		state.setItems(items);
 		Action action = new Action();
 		List<Integer> temp = new ArrayList<>(2);
-		temp.add(0);
-		temp.add(0);
-		action.setReturnList(temp);
+		temp.add(1);
+		temp.add(1);
+		action.setReturnList(items);
 		action.setOrderList(temp);
 		List<State> allStates =  Transaction.getAllPossibleState(state, action);
 		for(State current : allStates) {
 			System.out.println(current.toString());
 		}
+
+        Map<State, Double> allProbablities;
+        System.out.println("Begin to test probabilities ---------------------");
+        allProbablities = Transaction.getAllProbabilities(state, action);
+        double[] expectedValue = new double[4];
+        expectedValue[0] = 0.4 * 0.6 + 0.2 * 0.2 + 0.2 * 0.6 + 0.4 * 0.2;
+        expectedValue[1] = 0.2 * 0.4 + 0.2 * 0.2;
+        expectedValue[2] = 0.4 * 0.6 + 0.4 * 0.2;
+        expectedValue[3] = 0.4 * 0.2;
+        int index = 0;
+        for(State current : allStates) {
+            System.out.println(current.toString());
+            System.out.println(allProbablities.get(current));
+            assertEquals(expectedValue[index],allProbablities.get(current), 0.00001 );
+            index++;
+            System.out.println("---------------------------------------------");
+        }
 	}
 	
 	

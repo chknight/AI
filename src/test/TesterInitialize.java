@@ -23,6 +23,5 @@ public class TesterInitialize {
         MDPContext.probabilities = new ArrayList<>();
         MDPContext.probabilities.add(new Matrix(probabilities1));
         MDPContext.probabilities.add(new Matrix(probabilities2));
-        Transaction.probabilities = MDPContext.probabilities;
     }
 }
