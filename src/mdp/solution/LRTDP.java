@@ -1,9 +1,6 @@
 package mdp.solution;
 
-import mdp.component.Action;
-import mdp.component.State;
-import mdp.component.Transaction;
-import mdp.component.ValueFunction;
+import mdp.component.*;
 import mdp.util.MDPContext;
 import problem.ProblemSpec;
 import problem.Simulator;
@@ -24,15 +21,33 @@ public class LRTDP implements OrderingAgent {
     //the initialState of one time LRTDP update
     State initialSate;
 
+    long maxTime = 55 * 1000;
+
     List<State> solveState;
 
-    public void initializeStates() {
-
+    public LRTDP(ProblemSpec problemSpec) {
+        MDPContext.MaxType = problemSpec.getStore().getMaxTypes();
+        MDPContext.maxStore = problemSpec.getStore().getCapacity();
+        MDPContext.prices = problemSpec.getPrices();
+        MDPContext.allStates = new HashMap<>();
+        MDPContext.cutoffPenalytPerItem = problemSpec.getPenaltyFee();
+        MDPContext.discountFactor = problemSpec.getDiscountFactor();
+        MDPContext.problemSpec = problemSpec;
+        StateGenerator.generateAllState();
+        Action.maxOrder = problemSpec.getStore().getMaxPurchase();
+        Action.maxReturn = problemSpec.getStore().getMaxReturns();
+        ActionGenerator.generateAllActions(Action.maxOrder, Action.maxReturn);
+        if(MDPContext.MaxType <= 3) {
+            maxTime = 28 * 1000;
+        } else {
+            maxTime = 55 * 1000;
+        }
     }
+
 
     @Override
     public void doOfflineComputation() {
-        initializeStates();
+
     }
 
     @Override
@@ -58,10 +73,11 @@ public class LRTDP implements OrderingAgent {
         while(currentState.isSolved()) {
             visited.push(currentState);
             Action nextAction = greedyAction(currentState);
+            currentState = getNextState(currentState, nextAction);
         }
         while (!visited.isEmpty()) {
             State state = visited.pop();
-            checkSolved(currentState, factor);
+            checkSolved(state, factor);
         }
         return result;
     }
@@ -87,7 +103,7 @@ public class LRTDP implements OrderingAgent {
                 resolved = false;
             } else {
                 Action action = greedyAction(currentState);
-                Map<State, Double> possibleStates = Transaction.getAllProabilities(state, action);
+                Map<State, Double> possibleStates = Transaction.getAllProbabilities(state, action);
                 Set<State> allKeys = possibleStates.keySet();
                 State[] states = (State[])allKeys.toArray();
                 for(State temp : states) {
@@ -107,6 +123,24 @@ public class LRTDP implements OrderingAgent {
             }
         }
         return resolved;
+    }
+
+    // get the next state
+    private State getNextState(State currentState, Action action) {
+        List<State> allPossibleState = Transaction.getAllPossibleState(currentState, action);
+        Map<State, Double> probabilties = Transaction.getAllProbabilities(currentState, allPossibleState, action);
+        Random random = new Random();
+        double total = 0.0;
+        double next = random.nextDouble();
+        for(State state : allPossibleState) {
+            double temp = probabilties.get(state);
+            if(total <= next  && next < temp + total) {
+                return state;
+            } else{
+                total += temp;
+            }
+        }
+        return allPossibleState.get(allPossibleState.size() - 1);
     }
 
 
