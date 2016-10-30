@@ -6,9 +6,9 @@ import mdp.component.Transaction;
 import mdp.util.MDPContext;
 import problem.Matrix;
 
-import org.junit.Test;
+//import org.junit.Test;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class testTransaction {
 	private ArrayList<Integer> returnList = new ArrayList<Integer>();
 	
 	
-	 @Test
+//	 @Test
 	 public void testTransaction() {
 		 MDPContext.probabilities = new ArrayList<Matrix>();
 		 double[][] coke = new double[5][5];
@@ -71,10 +71,10 @@ public class testTransaction {
 		
 		 //transaction.probabilities = probabilities;
 		 //System.out.println(transaction.getProbabilityForOneItem(3, 0, 0, 3, 0));
-		 assertTrue(Transaction.getTransactionValue(temp, newState) == 0.24);
+//		 assertTrue(Transaction.getTransactionValue(temp, newState) == 0.24);
 	 }
 
-	@Test
+//	@Test
 	public void testAllPossibleFunctions() {
 		TesterInitialize.initiizeWith2();
 		State state = new State(2);
@@ -105,7 +105,7 @@ public class testTransaction {
         for(State current : allStates) {
             System.out.println(current.toString());
             System.out.println(allProbablities.get(current));
-            assertEquals(expectedValue[index],allProbablities.get(current), 0.00001 );
+//            assertEquals(expectedValue[index],allProbablities.get(current), 0.00001 );
             index++;
             System.out.println("---------------------------------------------");
         }

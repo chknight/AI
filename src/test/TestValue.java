@@ -2,7 +2,7 @@ package test;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
+//import org.junit.Test;
 
 import mdp.component.Action;
 import mdp.component.ActionGenerator;
@@ -18,7 +18,7 @@ public class TestValue {
 	private int maxReturn = 0;
 	
 	
-	@Test
+//	@Test
 	 public void testValue() {
 		initialStock = new ArrayList<Integer>();
 		initialStock.add(1);

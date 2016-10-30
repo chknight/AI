@@ -36,6 +36,7 @@ public class Runner {
 		
 		Simulator simulator = new Simulator(spec);
 		OrderingAgent solver = null;
+		long startTime = System.currentTimeMillis();
 		if (!RECREATE_SOLVER) {
 			solver = (OrderingAgent)ctor.newInstance(spec);
 			solver.doOfflineComputation();
@@ -58,6 +59,9 @@ public class Runner {
 			totalProfit += simulator.getTotalProfit();
 			System.out.println("-----------------------------------------------------------");
 		}
+
+		long endTime = System.currentTimeMillis();
+		System.out.println("The time is" + ((endTime - startTime)/1000.0 ));
 		
 		simulator.saveOutput(outputPath);
 		System.out.printf("Summary statistics from %d runs:\n", numSimulations);

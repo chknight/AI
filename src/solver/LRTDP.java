@@ -75,7 +75,9 @@ public class LRTDP implements OrderingAgent {
         }
         while (!visited.isEmpty()) {
             State state = visited.pop();
-            checkSolved(state, factor);
+            if(!checkSolved(state, factor)) {
+                break;
+            }
         }
         System.out.println("One of the get next Step end, the time is " +  (System.currentTimeMillis() - startTime));
         return previousState.bestAction;
